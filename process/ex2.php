@@ -33,7 +33,7 @@ $_SESSION['lastname']= $lastname;
 $_SESSION['firstname']= $firstname;
 $_SESSION['age']= $age;
 
-header("Location: ../public/ex2.php");
+header("Location: ../public/ex3.php");
 exit();
 
 ?>

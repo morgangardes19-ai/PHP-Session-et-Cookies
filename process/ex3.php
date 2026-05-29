@@ -1,4 +1,7 @@
 <?php 
+// var_dump($_POST);
+// die();
+
 // ETAPE 1 : SECURITE
 
 
@@ -8,12 +11,12 @@ if ($_SERVER['REQUEST_METHOD'] !== "POST") {
 }
 
 
-if (!isset($_POST['login']) || !isset($_POST['login'])) {
+if (!isset($_POST['login']) || !isset($_POST['password'])) {
     header("Location: ../public/ex3.php?error=missing-value");
     exit();
 }
 
-if (empty($_POST['password']) || empty($_POST['password'])) {
+if (empty($_POST['login']) || empty($_POST['password'])) {
     header("Location: ../public/ex3.php?error=value-empty");
     exit();
 }
@@ -23,20 +26,23 @@ if (empty($_POST['password']) || empty($_POST['password'])) {
 // INPUT SANITIZATION
 
 $login = htmlspecialchars(trim($_POST['login']));
-$password = htmlspecialchars(trim($_POST['password']));
 
 $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
 
+$identifiants = [
+    'login' => $login,
+    'password' => $password
+];
+
+$identifiants = json_encode($identifiants);
+
+
 
 // STOCKAGE DANS DES COOKIES
-setcookie('login', $login, time() + (1 * 24 * 3600));
-setcookie('password', $password, time() + (1 * 24 * 3600));
+setcookie('identifiants', $identifiants, time() + (1 * 24 * 3600), '/PHP%20-%20Session%20-%20Cookies');
 
-$_COOKIE['login'] = $login;
-$_COOKIE['password'] = $password;
-
-header("Location: ../public/ex3.php");
+header("Location: ../public/ex4.php");
 exit();
 
 ?>
